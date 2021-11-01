@@ -33,6 +33,8 @@ namespace SampleWebApiAspNetCore.v1.Controllers
             _urlHelper = urlHelper;
         }
 
+        private static ConcurrentBag<string> strings = new ConcurrentBag<string>();
+        
         [HttpGet(Name = nameof(GetAllFoods))]
         public ActionResult GetAllFoods(ApiVersion version, [FromQuery] QueryParameters queryParameters)
         {
@@ -65,6 +67,7 @@ namespace SampleWebApiAspNetCore.v1.Controllers
         [Route("{id:int}", Name = nameof(GetSingleFood))]
         public ActionResult GetSingleFood(ApiVersion version, int id)
         {
+            strings.Add(new String('x', 10 * 1024));
             FoodEntity foodItem = _foodRepository.GetSingle(id);
 
             if (foodItem == null)
